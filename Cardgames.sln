@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32328.378
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeckofCards", "DeckofCards\DeckofCards.csproj", "{04E64BBE-67DD-49F5-853F-C94F20FA8928}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blackjack", "Blackjack\Blackjack.csproj", "{1D46AF2D-3D35-4EEE-BEF7-0DEEE1CE21CE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{04E64BBE-67DD-49F5-853F-C94F20FA8928}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04E64BBE-67DD-49F5-853F-C94F20FA8928}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04E64BBE-67DD-49F5-853F-C94F20FA8928}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04E64BBE-67DD-49F5-853F-C94F20FA8928}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D46AF2D-3D35-4EEE-BEF7-0DEEE1CE21CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D46AF2D-3D35-4EEE-BEF7-0DEEE1CE21CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D46AF2D-3D35-4EEE-BEF7-0DEEE1CE21CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D46AF2D-3D35-4EEE-BEF7-0DEEE1CE21CE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {ED3E83E7-B39A-494B-9355-30E4E0CC092B}
+	EndGlobalSection
+EndGlobal
