@@ -35,7 +35,25 @@ namespace Blackjack
                     AddPlayer(playerNum);           //takes desired number of players and adds that many players to list of players
                     break;
                 }
+            }
                 Console.Clear();
+            for (int i = 0; i < players.Count; i++)
+            {
+                string name = null;
+                while (name == null)
+                {
+                    Console.Write("Enter player {0}'s name: ", (i + 1));
+                    try
+                    {
+                        name = Console.ReadLine();
+                    }
+                    catch (Exception)
+                    {
+                        Console.Clear();
+                        throw;
+                    }
+                }
+                players[i].name = name;
             }
             NewHands();
             foreach (Player player in players)
@@ -43,6 +61,7 @@ namespace Blackjack
                 while (player.playing)          //plays each players hand
                 {
                     Console.Clear();
+                    Console.WriteLine(player.name + "'s turn");
                     foreach (Card card in player.hand)
                     {
                         Console.Write(card.GetCard() + " ");
@@ -50,12 +69,23 @@ namespace Blackjack
                     Console.WriteLine();
                     Console.WriteLine(player.GetPoints());
 
-                    if (player.bust == true)
+                    if (player.GetPoints() == 21)
                     {
+                        if (player.hand.Count == 2)
+                        {
+                            Console.WriteLine("Blackjack");
+                        }
                         Thread.Sleep(3000);
                         break;
                     }
-                    char awn = player.TakeTurn();
+                    if (player.GetPoints() > 21)            //if they go bust, gives a 3 second delay to see their points before continueing to the next player
+                    {
+                        player.bust = true;
+                        Thread.Sleep(3000);
+                        break;
+                    }
+
+                    char awn = player.TakeTurn();           //the player selects what they want to do
                     switch (awn)
                     {
                         case 'h':
@@ -65,17 +95,15 @@ namespace Blackjack
                             DoubleDown(player);
                             break;
                         case 'p':
-                            SplitHand(player);
+                            Console.WriteLine("this function is not avalable at this time");
+                            Console.ReadLine();
+                            //SplitHand(player);
                             break;
                         case 's':
                             Stand(player);
                             break;
                         default:
                             break;
-                    }
-                    if (player.GetPoints() > 21)
-                    {
-                        player.bust = true;
                     }
                 }
             }
@@ -88,9 +116,9 @@ namespace Blackjack
                 players.Add(new Player());
             }
         }
-        public void AddPlayer(Card c)
+        public void AddPlayer(Card c, Player p)
         {
-
+            
         }
         public void NewHands()
         {

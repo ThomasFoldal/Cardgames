@@ -20,6 +20,7 @@ namespace Blackjack
         public bool playing { get; set; } = true;
         public bool canDouble { get; set; } = true;
         public bool bust { get; set; } = false;
+        public string name { get; set; }
         public char TakeTurn()
         {
             char awn;
