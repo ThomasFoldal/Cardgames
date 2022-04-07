@@ -31,12 +31,15 @@ namespace Blackjack
                         points += 11;
                         soft = true;
                         break;
+                    case 14:
+                        points += 1;
+                        break;
                     default:
                         points += c.face;
                         break;
                 }
             }
-            while (soft && points > 21)
+            while (soft && points > 21 )
             {
                 points = 0;
                 foreach (Card c in hand)

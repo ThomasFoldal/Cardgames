@@ -63,6 +63,7 @@ namespace Blackjack
                 {
                     while (true)
                     {
+                        Console.Clear();
                         player.ResteHand();
                         Console.WriteLine(player.name);
                         Console.WriteLine("Select betting amount. (from 5 to 100)");
@@ -173,7 +174,7 @@ namespace Blackjack
                 }
 
                 Thread.Sleep(4000);
-                if (!(dealer.GetPoints() > 21))
+                if (dealer.GetPoints() > 21)
                 {
                     foreach (Player player in players)
                     {
