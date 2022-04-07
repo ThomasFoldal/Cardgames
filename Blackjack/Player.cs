@@ -18,34 +18,24 @@ namespace Blackjack
             hand.Add(c);
         }
         public bool playing { get; set; } = true;
-        bool canDouble = true;
-        //public void Hit()
-        //{
-        //    hand.Add(deck.DrawCard());
-        //    canDouble = false;
-        //}
-        //public void DoubleDown()
-        //{
-        //    hand.Add(deck.DrawCard());
-        //    playing = false;
-        //}
-        //public void Stand()
-        //{
-        //    playing = false;
-        //}
-        //public void NewHand()
-        //{
-        //    playing = true;
-        //    canDouble = true;
-        //    hand.Add(deck.DrawCard(2));
-        //}
-        //public void SplitHand()
-        //{
-
-        //}
-        public void TakeTurn()
+        public bool canDouble { get; set; } = true;
+        public bool bust { get; set; } = false;
+        public char TakeTurn()
         {
-            Console.WriteLine();
+            char awn;
+            Console.WriteLine("(H)it");
+            if (canDouble)
+            {
+                Console.WriteLine("(D)ouble Down");
+            }
+            if (hand.Count == 2 && hand[0].face == hand[1].face)
+            {
+                Console.WriteLine("S(p)lit");
+            }
+            Console.WriteLine("(S)tand");
+
+            awn = Console.ReadKey().KeyChar;
+            return awn;
         }
     }
 }

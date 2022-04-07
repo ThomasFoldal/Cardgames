@@ -15,24 +15,61 @@ namespace Blackjack
         public void StartGame()
         {
             deck = new Deck();
-            deck.FillDeck(1);
+            deck.FillDeck(1);           //making a deck and filling it with cards
 
             dealer = new Dealer();
-            Console.WriteLine("Select number of players");
-            int playerNum;
-            try
+            while (true)
             {
-                playerNum = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Select number of players");
+                int playerNum;
+                try
+                {
+                    playerNum = Convert.ToInt32(Console.ReadLine());
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+                if (playerNum <= 5)
+                {
+                    AddPlayer(playerNum);           //takes desired number of players and adds that many players to list of players
+                    break;
+                }
+                Console.Clear();
             }
-            catch (Exception e)
-            {
-                throw;
-            }
-            AddPlayer(playerNum);
             NewHands();
             foreach (Player player in players)
             {
-                Console.WriteLine(player.GetPoints());
+                while (player.playing)          //plays each players hand
+                {
+                    Console.Clear();
+                    foreach (Card card in player.hand)
+                    {
+                        Console.Write(card.GetCard() + " ");
+                    }
+                    Console.WriteLine();
+                    Console.WriteLine(player.GetPoints());
+                    
+                    char awn = player.TakeTurn();
+                    switch (awn)
+                    {
+                        case 'h':
+                            Hit(player);
+                            break;
+                        case 'd':
+                            DoubleDown(player);
+                            break;
+                        case 'p':
+                            SplitHand(player);
+                            break;
+                        case 's':
+                            Stand(player);
+                            break;
+                        default:
+                            break;
+                    }
+
+                }
             }
             Console.ReadLine();
         }
@@ -54,6 +91,24 @@ namespace Blackjack
                 player.hand.Add(deck.DrawCard());
                 player.hand.Add(deck.DrawCard());
             }
+        }
+        public void Hit(Player p)
+        {
+            p.hand.Add(deck.DrawCard());
+            p.canDouble = false;
+        }
+        public void DoubleDown(Player p)
+        {
+            p.hand.Add(deck.DrawCard());
+            p.playing = false;
+        }
+        public void Stand(Player p)
+        {
+            p.playing = false;
+        }
+        public void SplitHand(Player p)
+        {
+
         }
     }
 }
