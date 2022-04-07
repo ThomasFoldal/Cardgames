@@ -101,6 +101,30 @@ namespace Blackjack
                     }
                 }
             }
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("Dealer");
+                DisplayHand(dealer);
+                Console.WriteLine();
+
+                foreach (Player player in players)
+                {
+                    Console.WriteLine(player.name);
+                    if (player.bust)
+                    {
+                        Console.WriteLine("Busted");
+                    }
+                    else
+                    {
+                        DisplayHand(player);
+                    }
+                    Console.WriteLine();
+                }
+                dealer.hand.Add(deck.DrawCard());
+                Thread.Sleep(2000);
+            }
+            while (dealer.GetPoints() < 17);
             Console.ReadKey();
         }
         public void AddPlayer(int i)
@@ -169,7 +193,6 @@ namespace Blackjack
             }
             Console.WriteLine();
             Console.WriteLine(entity.GetPoints());
-
         }
     }
 }
