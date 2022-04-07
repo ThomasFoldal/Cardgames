@@ -25,12 +25,9 @@ namespace Blackjack
                     return hand[1].face;
             }
         }
-        public void DrawCards()
+        public string CardStart()
         {
-            while (GetPoints() < 17)
-            {
-                
-            }
+            return hand[1].GetCard();
         }
     }
 }

@@ -55,19 +55,13 @@ namespace Blackjack
                 }
                 players[i].name = name;
             }
+            DealerDraw(2,dealer);
             NewHands();
             foreach (Player player in players)
             {
                 while (player.playing)          //plays each players hand
                 {
-                    Console.Clear();
-                    Console.WriteLine(player.name + "'s turn");
-                    foreach (Card card in player.hand)
-                    {
-                        Console.Write(card.GetCard() + " ");
-                    }
-                    Console.WriteLine();
-                    Console.WriteLine(player.GetPoints());
+                    DisplayBoard(player, dealer);
 
                     if (player.GetPoints() == 21)
                     {
@@ -92,7 +86,7 @@ namespace Blackjack
                             Hit(player);
                             break;
                         case 'd':
-                            DoubleDown(player);
+                            DoubleDown(player, dealer);
                             break;
                         case 'p':
                             Console.WriteLine("this function is not avalable at this time");
@@ -133,10 +127,12 @@ namespace Blackjack
             p.hand.Add(deck.DrawCard());
             p.canDouble = false;
         }
-        public void DoubleDown(Player p)
+        public void DoubleDown(Player p, Dealer d)
         {
             p.hand.Add(deck.DrawCard());
             p.playing = false;
+            DisplayBoard(p,d);
+            Thread.Sleep(3000);
         }
         public void Stand(Player p)
         {
@@ -144,6 +140,35 @@ namespace Blackjack
         }
         public void SplitHand(Player p)
         {
+
+        }
+        public void DisplayBoard(Player player, Dealer dealer)
+        {
+            Console.Clear();
+            Console.WriteLine(player.name + "'s turn");
+            Console.WriteLine();
+            Console.WriteLine("Dealer");
+            Console.WriteLine(dealer.CardStart());
+            Console.WriteLine(dealer.PointsStart());
+            Console.WriteLine();
+
+            DisplayHand(player);
+        }
+        public void DealerDraw(int j, Dealer house)
+        {
+            for (int i = 0; i < j; i++)
+            {
+                house.hand.Add(deck.DrawCard());
+            }
+        }
+        public void DisplayHand(Entity entity)
+        {
+            foreach (Card card in entity.hand)
+            {
+                Console.Write(card.GetCard() + " ");
+            }
+            Console.WriteLine();
+            Console.WriteLine(entity.GetPoints());
 
         }
     }
