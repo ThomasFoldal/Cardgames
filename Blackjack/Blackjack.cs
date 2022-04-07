@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using DeckOfCards;
 
 namespace Blackjack
@@ -49,7 +49,12 @@ namespace Blackjack
                     }
                     Console.WriteLine();
                     Console.WriteLine(player.GetPoints());
-                    
+
+                    if (player.bust == true)
+                    {
+                        Thread.Sleep(3000);
+                        break;
+                    }
                     char awn = player.TakeTurn();
                     switch (awn)
                     {
@@ -68,10 +73,13 @@ namespace Blackjack
                         default:
                             break;
                     }
-
+                    if (player.GetPoints() > 21)
+                    {
+                        player.bust = true;
+                    }
                 }
             }
-            Console.ReadLine();
+            Console.ReadKey();
         }
         public void AddPlayer(int i)
         {
