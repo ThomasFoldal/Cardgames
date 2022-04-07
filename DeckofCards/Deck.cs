@@ -54,6 +54,13 @@ namespace DeckOfCards
 
             return card;
         }
+        List<Card> meep = new List<Card>() { new Card(2, '•'), new Card(1, '•'), new Card(10, '•'), new Card(1, '•'), new Card(6, '•')};
+        public Card DrawCard(char mep)
+        {
+            Card meeep = meep[0];
+            meep.RemoveAt(0);
+            return meeep;
+        }
         public Card[] DrawCard(int draw)
         {
             Card[] hand = new Card[draw];

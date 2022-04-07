@@ -21,6 +21,8 @@ namespace Blackjack
         public bool canDouble { get; set; } = true;
         public bool bust { get; set; } = false;
         public string name { get; set; }
+        public int wallet { get; set; } = 1000;
+        public int bet { get; set; }
         public char TakeTurn()
         {
             char awn;

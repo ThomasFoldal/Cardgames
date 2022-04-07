@@ -14,7 +14,29 @@ namespace Blackjack
         {
             int points = 0;
             bool soft = false;
-            do
+            foreach (Card c in hand)
+            {
+                switch (c.face)
+                {
+                    case 11:
+                        points += 10;
+                        break;
+                    case 12:
+                        points += 10;
+                        break;
+                    case 13:
+                        points += 10;
+                        break;
+                    case 1:
+                        points += 11;
+                        soft = true;
+                        break;
+                    default:
+                        points += c.face;
+                        break;
+                }
+            }
+            while (soft && points > 21)
             {
                 points = 0;
                 foreach (Card c in hand)
@@ -34,7 +56,7 @@ namespace Blackjack
                             if (soft)
                             {
                                 points += 1;
-                                soft = false;
+                                c.face = 14;
                             }
                             else
                             {
@@ -42,13 +64,21 @@ namespace Blackjack
                                 soft = true;
                             }
                             break;
+                        case 14:
+                            points += 1;
+                            break;
                         default:
                             points += c.face;
                             break;
                     }
                 }
-            } while (soft && points >= 21);
+            }
+
             return points;
+        }
+        public void ResteHand()
+        {
+            hand.Clear();
         }
     }
 }
