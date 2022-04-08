@@ -9,43 +9,39 @@ namespace Blackjack
 {
     internal class Player : Entity
     {
-        public Player()
+        private Wallet wallet;
+        private string name;
+        public Player(string name)
         {
-
-        }
-        public Player(Card c)
-        {
-            hand.Add(c);
+            this.name = name;
+            wallet = new Wallet(1000);
         }
         public bool playing { get; set; } = true;
         public bool canDouble { get; set; } = true;
         public bool bust { get; set; } = false;
-        public string name { get; set; }
-        public int wallet { get; set; } = 1000;
         public int bet { get; set; }
-        public char TakeTurn()
-        {
-            char awn;
-            Console.WriteLine("(H)it");
-            if (canDouble)
-            {
-                Console.WriteLine("(D)ouble Down");
-            }
-            if (hand.Count == 2 && hand[0].face == hand[1].face)
-            {
-                Console.WriteLine("S(p)lit");
-            }
-            Console.WriteLine("(S)tand");
-
-            awn = Console.ReadKey().KeyChar;
-            return awn;
-        }
         public void Reset()
         {
             hand.Clear();
             playing = true;
             canDouble = true;
             bust = false;
+        }
+        public string GetName()
+        {
+            return name;
+        }
+        public int CheckWallet()
+        {
+            return wallet.Contains();
+        }
+        public void AddToWallet(int money)
+        {
+            wallet.Add(money);
+        }
+        public int TakeFromWallet(int money)
+        {
+            return wallet.Remove(money);
         }
     }
 }

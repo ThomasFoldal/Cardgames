@@ -18,10 +18,11 @@ namespace Blackjack
             deck.FillDeck(1);           //making a deck and filling it with cards
 
             dealer = new Dealer();
+            int playerNum;
+            bool quit = false;
             while (true)
             {
                 Console.WriteLine("Select number of players");
-                int playerNum;
                 try
                 {
                     playerNum = Convert.ToInt32(Console.ReadLine());
@@ -33,13 +34,14 @@ namespace Blackjack
                 }
                 if (playerNum <= 5)
                 {
-                    AddPlayer(playerNum);           //takes desired number of players and adds that many players to list of players
+                               //takes desired number of players and adds that many players to list of players
                     break;
                 }
                 Console.WriteLine("Max number of player is 5");
             }
             Console.Clear();
-            for (int i = 0; i < players.Count; i++)
+            string[] names = new string[playerNum];
+            for (int i = 0; i < playerNum; i++)
             {
                 string name = null;
                 while (name == null)
@@ -55,17 +57,19 @@ namespace Blackjack
                         Console.WriteLine("Invalid Input");
                     }
                 }
-                players[i].name = name;
+                names[i] = name;
             }
-            while (true)
+            AddPlayer(names);
+            while (quit == false)
             {
+                Console.Clear();
+                dealer.ResetHand();
                 foreach (Player player in players)
                 {
                     while (true)
                     {
                         player.Reset();
-                        dealer.ResetHand();
-                        Console.WriteLine(player.name);
+                        Console.WriteLine(player.GetName());
                         Console.WriteLine("Select betting amount. (from 5 to 100)");
                         try
                         {
@@ -85,8 +89,8 @@ namespace Blackjack
                             Console.WriteLine("Invalid Input");
                         }
                     }
-                    Console.Clear();
                 }
+                Console.Clear();
                 DealerDraw(2, dealer);
                 NewHands();
                 foreach (Player player in players)
@@ -95,7 +99,7 @@ namespace Blackjack
                     {
                         DisplayBoard(player, dealer);
 
-                        if (player.GetPoints() == 21)
+                        if (GetPoints(player) == 21)
                         {
                             if (player.hand.Count == 2)
                             {
@@ -104,14 +108,14 @@ namespace Blackjack
                             Thread.Sleep(3000);
                             break;
                         }
-                        if (player.GetPoints() > 21)            //if they go bust, gives a 3 second delay to see their points before continueing to the next player
+                        if (GetPoints(player) > 21)            //if they go bust, gives a 3 second delay to see their points before continueing to the next player
                         {
                             player.bust = true;
                             Thread.Sleep(3000);
                             break;
                         }
 
-                        char awn = player.TakeTurn();           //the player selects what they want to do
+                        char awn = TakeTurn(player);           //the player selects what they want to do
                         switch (awn)
                         {
                             case 'h':
@@ -133,9 +137,9 @@ namespace Blackjack
                         }
                     }
                 }
-                if (dealer.GetPoints() < 17)
+                if (GetPoints(dealer) < 17)
                 {
-                    while (dealer.GetPoints() < 17)
+                    while (GetPoints(dealer) < 17)
                     {
                         dealer.hand.Add(deck.DrawCard());
                         Console.Clear();
@@ -145,7 +149,7 @@ namespace Blackjack
 
                         foreach (Player player in players)
                         {
-                            Console.WriteLine(player.name);
+                            Console.WriteLine(player.GetName());
                             if (player.bust)
                             {
                                 Console.WriteLine("Busted");
@@ -168,7 +172,7 @@ namespace Blackjack
 
                     foreach (Player player in players)
                     {
-                        Console.WriteLine(player.name);
+                        Console.WriteLine(player.GetName());
                         if (player.bust)
                         {
                             Console.WriteLine("Busted");
@@ -182,23 +186,23 @@ namespace Blackjack
                     Thread.Sleep(2000);
                 }
 
-                if (dealer.GetPoints() > 21)
+                if (GetPoints(dealer) > 21)
                 {
                     foreach (Player player in players)
                     {
                         if (!player.bust)
                         {
-                            player.wallet += player.bet;
-                            Console.WriteLine(player.name);
+                            player.AddToWallet(player.bet);
+                            Console.WriteLine(player.GetName());
                             Console.WriteLine("Won " + player.bet);
-                            Console.WriteLine("Wallet: " + player.wallet);
+                            Console.WriteLine("Wallet: " + player.CheckWallet());
                         }
                         else
                         {
-                            player.wallet -= player.bet;
-                            Console.WriteLine(player.name);
+                            player.TakeFromWallet(player.bet);
+                            Console.WriteLine(player.GetName());
                             Console.WriteLine("Lost " + player.bet);
-                            Console.WriteLine("Wallet: " + player.wallet);
+                            Console.WriteLine("Wallet: " + player.CheckWallet());
                         }
                     }
                 }
@@ -208,39 +212,59 @@ namespace Blackjack
                     {
                         if (!player.bust)
                         {
-                            if (player.GetPoints() > dealer.GetPoints())
+                            if (GetPoints(player) > GetPoints(dealer))
                             {
-                                player.wallet += player.bet;
-                                Console.WriteLine(player.name);
+                                player.AddToWallet(player.bet);
+                                Console.WriteLine(player.GetName());
                                 Console.WriteLine("Won " + player.bet);
-                                Console.WriteLine("Wallet: " + player.wallet);
+                                Console.WriteLine("Wallet: " + player.CheckWallet());
+                            }
+                            else if (GetPoints(player) == GetPoints(dealer))
+                            {
+                                Console.WriteLine(player.GetName());
+                                Console.WriteLine("Push");
+                                Console.WriteLine("Wallet: " + player.CheckWallet());
                             }
                             else
                             {
-                                player.wallet -= player.bet;
-                                Console.WriteLine(player.name);
+                                player.TakeFromWallet(player.bet);
+                                Console.WriteLine(player.GetName());
                                 Console.WriteLine("Lost " + player.bet);
-                                Console.WriteLine("Wallet: " + player.wallet);
+                                Console.WriteLine("Wallet: " + player.CheckWallet());
                             }
                         }
                         else
                         {
-                            player.wallet -= player.bet;
-                            Console.WriteLine(player.name);
+                            player.TakeFromWallet(player.bet);
+                            Console.WriteLine(player.GetName());
                             Console.WriteLine("Lost " + player.bet);
-                            Console.WriteLine("Wallet: " + player.wallet);
+                            Console.WriteLine("Wallet: " + player.CheckWallet());
                         }
                     }
                 }
-                Console.ReadKey();
+                Console.WriteLine("(C)ontinue");
+                Console.WriteLine("(Q)uit");
+                char turnEnd = Console.ReadKey().KeyChar;
+                while (true)
+                {
+                    if (turnEnd == 'c')
+                    {
+                        break;
+                    }
+                    else if (turnEnd == 'q')
+                    {
+                        quit = true;
+                        break;
+                    }
+                }
                 Console.Clear();
             }
         }
-        public void AddPlayer(int i)
+        public void AddPlayer(string[] names)
         {
-            for (int j = 0; j < i; j++)
+            foreach (string name in names)
             {
-                players.Add(new Player());
+                players.Add(new Player(name));
             }
         }
         public void AddPlayer(Card c, Player p)
@@ -278,7 +302,7 @@ namespace Blackjack
         public void DisplayBoard(Player player, Dealer dealer)
         {
             Console.Clear();
-            Console.WriteLine(player.name + "'s turn");
+            Console.WriteLine(player.GetName() + "'s turn");
             Console.WriteLine();
             Console.WriteLine("Dealer");
             Console.WriteLine(dealer.CardStart());
@@ -301,7 +325,94 @@ namespace Blackjack
                 Console.Write(card.GetCard() + " ");
             }
             Console.WriteLine();
-            Console.WriteLine(entity.GetPoints());
+            Console.WriteLine(GetPoints(entity));
         }
+        public int GetPoints(Entity entity)
+        {
+            int points = 0;
+            bool soft = false;
+            foreach (Card c in entity.hand)
+            {
+                switch (c.face)
+                {
+                    case 11:
+                        points += 10;
+                        break;
+                    case 12:
+                        points += 10;
+                        break;
+                    case 13:
+                        points += 10;
+                        break;
+                    case 1:
+                        points += 11;
+                        soft = true;
+                        break;
+                    case 14:
+                        points += 1;
+                        break;
+                    default:
+                        points += c.face;
+                        break;
+                }
+            }
+            while (soft && points > 21)
+            {
+                points = 0;
+                foreach (Card c in entity.hand)
+                {
+                    switch (c.face)
+                    {
+                        case 11:
+                            points += 10;
+                            break;
+                        case 12:
+                            points += 10;
+                            break;
+                        case 13:
+                            points += 10;
+                            break;
+                        case 1:
+                            if (soft)
+                            {
+                                points += 1;
+                                c.face = 14;
+                            }
+                            else
+                            {
+                                points += 11;
+                                soft = true;
+                            }
+                            break;
+                        case 14:
+                            points += 1;
+                            break;
+                        default:
+                            points += c.face;
+                            break;
+                    }
+                }
+            }
+
+            return points;
+        }
+        public char TakeTurn(Player player)
+        {
+            char awn;
+            Console.WriteLine("(H)it");
+            if (player.canDouble)
+            {
+                Console.WriteLine("(D)ouble Down");
+            }
+            if (player.hand.Count == 2 && player.hand[0].face == player.hand[1].face)
+            {
+                Console.WriteLine("S(p)lit");
+            }
+            Console.WriteLine("(S)tand");
+
+            awn = Console.ReadKey().KeyChar;
+            return awn;
+        }
+
     }
 }
