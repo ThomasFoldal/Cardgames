@@ -63,20 +63,29 @@ namespace Blackjack
                 {
                     while (true)
                     {
-                        Console.Clear();
-                        player.ResteHand();
+                        player.Reset();
+                        dealer.ResetHand();
                         Console.WriteLine(player.name);
                         Console.WriteLine("Select betting amount. (from 5 to 100)");
                         try
                         {
-                            player.bet = Convert.ToInt32(Console.ReadLine());
-                            break;
+                            int bet = Convert.ToInt32(Console.ReadLine());
+                            if (bet <= 100 && bet >= 5)
+                            {
+                                player.bet = bet;
+                                break;
+                            }
+                            else
+                            {
+                                Console.WriteLine();
+                            }
                         }
                         catch (Exception e)
                         {
                             Console.WriteLine("Invalid Input");
                         }
                     }
+                    Console.Clear();
                 }
                 DealerDraw(2, dealer);
                 NewHands();
@@ -128,7 +137,7 @@ namespace Blackjack
                 {
                     while (dealer.GetPoints() < 17)
                     {
-                        dealer.hand.Add(deck.DrawCard('z'));
+                        dealer.hand.Add(deck.DrawCard());
                         Console.Clear();
                         Console.WriteLine("Dealer");
                         DisplayHand(dealer);
@@ -173,7 +182,6 @@ namespace Blackjack
                     Thread.Sleep(2000);
                 }
 
-                Thread.Sleep(4000);
                 if (dealer.GetPoints() > 21)
                 {
                     foreach (Player player in players)
@@ -225,6 +233,7 @@ namespace Blackjack
                     }
                 }
                 Console.ReadKey();
+                Console.Clear();
             }
         }
         public void AddPlayer(int i)
@@ -282,7 +291,7 @@ namespace Blackjack
         {
             for (int i = 0; i < j; i++)
             {
-                house.hand.Add(deck.DrawCard('•'));
+                house.hand.Add(deck.DrawCard());
             }
         }
         public void DisplayHand(Entity entity)

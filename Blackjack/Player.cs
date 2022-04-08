@@ -40,5 +40,12 @@ namespace Blackjack
             awn = Console.ReadKey().KeyChar;
             return awn;
         }
+        public void Reset()
+        {
+            hand.Clear();
+            playing = true;
+            canDouble = true;
+            bust = false;
+        }
     }
 }

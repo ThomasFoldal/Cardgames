@@ -79,7 +79,7 @@ namespace Blackjack
 
             return points;
         }
-        public void ResteHand()
+        public void ResetHand()
         {
             hand.Clear();
         }
