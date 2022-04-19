@@ -18,173 +18,175 @@ namespace Blackjack
             deck.FillDeck(1);           //making a deck and filling it with cards
 
             dealer = new Dealer();
-            int playerNum;
             bool quit = false;
-            while (true)
-            {
-                Console.WriteLine("Select number of players");
-                try
-                {
-                    playerNum = Convert.ToInt32(Console.ReadLine());
-                }
-                catch (Exception)
-                {
-                    Console.WriteLine("Invalid Input");
-                    throw;
-                }
-                if (playerNum <= 5)
-                {
-                               //takes desired number of players and adds that many players to list of players
-                    break;
-                }
-                Console.WriteLine("Max number of player is 5");
-            }
-            Console.Clear();
-            string[] names = new string[playerNum];
-            for (int i = 0; i < playerNum; i++)
-            {
-                string name = null;
-                while (name == null)
-                {
-                    Console.Write("Enter player {0}'s name: ", (i + 1));        //make everyone enter their name
-                    try
-                    {
-                        name = Console.ReadLine();
-                    }
-                    catch (Exception)
-                    {
-                        Console.Clear();
-                        Console.WriteLine("Invalid Input");
-                    }
-                }
-                names[i] = name;
-            }
-            AddPlayer(names);
+            //while (true)
+            //{
+            //    Console.WriteLine("Select number of players");
+            //    try
+            //    {
+            //        playerNum = Convert.ToInt32(Console.ReadLine());
+            //    }
+            //    catch (Exception)
+            //    {
+            //        Console.WriteLine("Invalid Input");
+            //        throw;
+            //    }
+            //    if (playerNum <= 5)
+            //    {
+            //                   //takes desired number of players and adds that many players to list of players
+            //        break;
+            //    }
+            //    Console.WriteLine("Max number of player is 5");
+            //}
+            //Console.Clear();
+            //string[] names = new string[playerNum];
+            //for (int i = 0; i < playerNum; i++)
+            //{
+            //    string name = null;
+            //    while (name == null)
+            //    {
+            //        Console.Write("Enter player {0}'s name: ", (i + 1));        //make everyone enter their name
+            //        try
+            //        {
+            //            name = Console.ReadLine();
+            //        }
+            //        catch (Exception)
+            //        {
+            //            Console.Clear();
+            //            Console.WriteLine("Invalid Input");
+            //        }
+            //    }
+            //    names[i] = name;
+            //}
+            //AddPlayer(names);
             while (quit == false)
             {
                 Console.Clear();
                 dealer.ResetHand();
                 foreach (Player player in players)
                 {
-                    while (true)
-                    {
-                        player.Reset();
-                        Console.WriteLine(player.GetName());
-                        Console.WriteLine("Select betting amount. (from 5 to 100)");
-                        try
-                        {
-                            int bet = Convert.ToInt32(Console.ReadLine());
-                            if (bet <= 100 && bet >= 5)
-                            {
-                                player.bet = bet;
-                                break;
-                            }
-                            else
-                            {
-                                Console.WriteLine();
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine("Invalid Input");
-                        }
-                    }
+                    PlaceBet(player);
+                    //while (true)
+                    //{
+                    //    player.Reset();
+                    //    Console.WriteLine(player.GetName());
+                    //    Console.WriteLine("Select betting amount. (from 5 to 100)");
+                    //    try
+                    //    {
+                    //        int bet = Convert.ToInt32(Console.ReadLine());
+                    //        if (bet <= 100 && bet >= 5)
+                    //        {
+                    //            player.bet = bet;
+                    //            break;
+                    //        }
+                    //        else
+                    //        {
+                    //            Console.WriteLine();
+                    //        }
+                    //    }
+                    //    catch (Exception e)
+                    //    {
+                    //        Console.WriteLine("Invalid Input");
+                    //    }
+                    //}
                 }
                 Console.Clear();
                 DealerDraw(2, dealer);
                 NewHands();
                 foreach (Player player in players)
                 {
-                    while (player.playing)          //plays each players hand
-                    {
-                        DisplayBoard(player, dealer);
+                    //while (player.playing)          //plays each players hand
+                    //{
+                    //    DisplayBoard(player, dealer);
 
-                        if (GetPoints(player) == 21)
-                        {
-                            if (player.hand.Count == 2)
-                            {
-                                Console.WriteLine("Blackjack");
-                            }
-                            Thread.Sleep(3000);
-                            break;
-                        }
-                        if (GetPoints(player) > 21)            //if they go bust, gives a 3 second delay to see their points before continueing to the next player
-                        {
-                            player.bust = true;
-                            Thread.Sleep(3000);
-                            break;
-                        }
+                    //    if (GetPoints(player) == 21)
+                    //    {
+                    //        if (player.hand.Count == 2)
+                    //        {
+                    //            Console.WriteLine("Blackjack");
+                    //        }
+                    //        Thread.Sleep(3000);
+                    //        break;
+                    //    }
+                    //    if (GetPoints(player) > 21)            //if they go bust, gives a 3 second delay to see their points before continueing to the next player
+                    //    {
+                    //        player.bust = true;
+                    //        Thread.Sleep(3000);
+                    //        break;
+                    //    }
 
-                        char awn = TakeTurn(player);           //the player selects what they want to do
-                        switch (awn)
-                        {
-                            case 'h':
-                                Hit(player);
-                                break;
-                            case 'd':
-                                DoubleDown(player, dealer);
-                                break;
-                            case 'p':
-                                Console.WriteLine("this function is not avalable at this time");
-                                Console.ReadLine();
-                                //SplitHand(player);
-                                break;
-                            case 's':
-                                Stand(player);
-                                break;
-                            default:
-                                break;
-                        }
-                    }
+                    //    char awn = TakeTurn(player);           //the player selects what they want to do
+                    //    switch (awn)
+                    //    {
+                    //        case 'h':
+                    //            Hit(player);
+                    //            break;
+                    //        case 'd':
+                    //            DoubleDown(player, dealer);
+                    //            break;
+                    //        case 'p':
+                    //            Console.WriteLine("this function is not avalable at this time");
+                    //            Console.ReadLine();
+                    //            //SplitHand(player);
+                    //            break;
+                    //        case 's':
+                    //            Stand(player);
+                    //            break;
+                    //        default:
+                    //            break;
+                    //    }
+                    //}
+                    Turn(player);
                 }
-                if (GetPoints(dealer) < 17)
-                {
-                    while (GetPoints(dealer) < 17)
-                    {
-                        dealer.hand.Add(deck.DrawCard());
-                        Console.Clear();
-                        Console.WriteLine("Dealer");
-                        DisplayHand(dealer);
-                        Console.WriteLine();
+                //if (GetPoints(dealer) < 17)
+                //{
+                //    while (GetPoints(dealer) < 17)
+                //    {
+                //        dealer.hand.Add(deck.DrawCard());
+                //        Console.Clear();
+                //        Console.WriteLine("Dealer");
+                //        DisplayHand(dealer);
+                //        Console.WriteLine();
 
-                        foreach (Player player in players)
-                        {
-                            Console.WriteLine(player.GetName());
-                            if (player.bust)
-                            {
-                                Console.WriteLine("Busted");
-                            }
-                            else
-                            {
-                                DisplayHand(player);
-                            }
-                            Console.WriteLine();
-                        }
-                        Thread.Sleep(2000);
-                    }
-                }
-                else
-                {
-                    Console.Clear();
-                    Console.WriteLine("Dealer");
-                    DisplayHand(dealer);
-                    Console.WriteLine();
+                //        foreach (Player player in players)
+                //        {
+                //            Console.WriteLine(player.GetName());
+                //            if (player.bust)
+                //            {
+                //                Console.WriteLine("Busted");
+                //            }
+                //            else
+                //            {
+                //                DisplayHand(player);
+                //            }
+                //            Console.WriteLine();
+                //        }
+                //        Thread.Sleep(2000);
+                //    }
+                //}
+                //else
+                //{
+                //    Console.Clear();
+                //    Console.WriteLine("Dealer");
+                //    DisplayHand(dealer);
+                //    Console.WriteLine();
 
-                    foreach (Player player in players)
-                    {
-                        Console.WriteLine(player.GetName());
-                        if (player.bust)
-                        {
-                            Console.WriteLine("Busted");
-                        }
-                        else
-                        {
-                            DisplayHand(player);
-                        }
-                        Console.WriteLine();
-                    }
-                    Thread.Sleep(2000);
-                }
+                //    foreach (Player player in players)
+                //    {
+                //        Console.WriteLine(player.GetName());
+                //        if (player.bust)
+                //        {
+                //            Console.WriteLine("Busted");
+                //        }
+                //        else
+                //        {
+                //            DisplayHand(player);
+                //        }
+                //        Console.WriteLine();
+                //    }
+                //    Thread.Sleep(2000);
+                //}
+                DealerTurn(dealer);
 
                 if (GetPoints(dealer) > 21)
                 {
@@ -269,7 +271,7 @@ namespace Blackjack
         }
         public void AddPlayer(Card c, Player p)
         {
-            
+
         }
         public void NewHands()
         {
@@ -288,7 +290,7 @@ namespace Blackjack
         {
             p.hand.Add(deck.DrawCard());
             p.playing = false;
-            DisplayBoard(p,d);
+            DisplayBoard(p, d);
             Thread.Sleep(3000);
         }
         public void Stand(Player p)
@@ -413,6 +415,175 @@ namespace Blackjack
             awn = Console.ReadKey().KeyChar;
             return awn;
         }
+        public string[] AddPlayers()
+        {
+            int playerNum;
+            while (true)
+            {
+                Console.WriteLine("Select number of players");
+                try
+                {
+                    playerNum = Convert.ToInt32(Console.ReadLine());
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Invalid Input");
+                    throw;
+                }
+                if (playerNum <= 5)
+                {
+                    //takes desired number of players and adds that many players to list of players
+                    break;
+                }
+                Console.WriteLine("Max number of player is 5");
+            }
 
+            Console.Clear();
+            string[] names = new string[playerNum];
+            for (int i = 0; i < playerNum; i++)
+            {
+                string name = null;
+                while (name == null)
+                {
+                    Console.Write("Enter player {0}'s name: ", (i + 1));        //make everyone enter their name
+                    try
+                    {
+                        name = Console.ReadLine();
+                    }
+                    catch (Exception)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Invalid Input");
+                    }
+                }
+                names[i] = name;
+            }
+            AddPlayer(names);
+        }
+        public void PlaceBet(Player player)
+        {
+            while (true)
+            {
+                player.Reset();
+                Console.WriteLine(player.GetName());
+                Console.WriteLine("Select betting amount. (from 5 to 100)");
+                try
+                {
+                    int bet = Convert.ToInt32(Console.ReadLine());
+                    if (bet <= 100 && bet >= 5)
+                    {
+                        player.bet = bet;
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine();
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Invalid Input");
+                }
+            }
+        }
+        public void Turn(Player player)
+        {
+            while (player.playing)          //plays each players hand
+            {
+                DisplayBoard(player, dealer);
+
+                if (GetPoints(player) == 21)
+                {
+                    if (player.hand.Count == 2)
+                    {
+                        Console.WriteLine("Blackjack");
+                    }
+                    Thread.Sleep(3000);
+                    break;
+                }
+                if (GetPoints(player) > 21)            //if they go bust, gives a 3 second delay to see their points before continueing to the next player
+                {
+                    player.bust = true;
+                    Thread.Sleep(3000);
+                    break;
+                }
+
+                char awn = TakeTurn(player);           //the player selects what they want to do
+                switch (awn)
+                {
+                    case 'h':
+                        Hit(player);
+                        break;
+                    case 'd':
+                        DoubleDown(player, dealer);
+                        break;
+                    case 'p':
+                        Console.WriteLine("this function is not avalable at this time");
+                        Console.ReadLine();
+                        //SplitHand(player);
+                        break;
+                    case 's':
+                        Stand(player);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        public void DealerTurn(Dealer dealer)
+        {
+            if (GetPoints(dealer) < 17)
+            {
+                while (GetPoints(dealer) < 17)
+                {
+                    dealer.hand.Add(deck.DrawCard());
+                    Console.Clear();
+                    Console.WriteLine("Dealer");
+                    DisplayHand(dealer);
+                    Console.WriteLine();
+
+                    foreach (Player player in players)
+                    {
+                        Console.WriteLine(player.GetName());
+                        if (player.bust)
+                        {
+                            Console.WriteLine("Busted");
+                        }
+                        else
+                        {
+                            DisplayHand(player);
+                        }
+                        Console.WriteLine();
+                    }
+                    Thread.Sleep(2000);
+                }
+            }
+            else
+            {
+                Console.Clear();
+                Console.WriteLine("Dealer");
+                DisplayHand(dealer);
+                Console.WriteLine();
+
+                foreach (Player player in players)
+                {
+                    Console.WriteLine(player.GetName());
+                    if (player.bust)
+                    {
+                        Console.WriteLine("Busted");
+                    }
+                    else
+                    {
+                        DisplayHand(player);
+                    }
+                    Console.WriteLine();
+                }
+                Thread.Sleep(2000);
+            }
+        }
+        public void TjekWinner()
+        {
+
+        }
     }
 }
