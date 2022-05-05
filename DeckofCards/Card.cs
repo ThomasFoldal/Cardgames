@@ -6,8 +6,8 @@ namespace DeckOfCards
 {
     public class Card
     {
-        public int face { get; set; }
-        public char suite { get; set; }
+        private int face;
+        private char suite;
 
         public Card(int face, char suite)
         {
@@ -38,6 +38,18 @@ namespace DeckOfCards
                     break;
             }
             return card;
+        }
+        public int GetFace()
+        {
+            return face;
+        }
+        public char GetSuite()
+        {
+            return suite;
+        }
+        public void AceSwap()
+        {
+            face = 14;
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Blackjack
     {
         public int PointsStart()
         {
-            switch (hand[1].face)
+            switch (hand[1].GetFace())
             {
                 case 1:
                     return 11;
@@ -22,7 +22,7 @@ namespace Blackjack
                 case 13:
                     return 10;
                 default:
-                    return hand[1].face;
+                    return hand[1].GetFace();
             }
         }
         public string CardStart()

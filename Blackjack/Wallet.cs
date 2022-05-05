@@ -8,22 +8,21 @@ namespace Blackjack
 {
     internal class Wallet
     {
-        private int capital;
-
+        private int balance;
         public Wallet() { }
         public Wallet(int i)
         {
-            capital = i;
+            balance = i;
         }
         public int Contains()
         {
-            return capital;
+            return balance;
         }
         public int Remove(int i)
         {
-            if (i <= capital)
+            if (i <= balance)
             {
-                capital -= i;
+                balance -= i;
                 return i;
             }
             else
@@ -33,7 +32,7 @@ namespace Blackjack
         }
         public void Add(int i)
         {
-            capital += i;
+            balance += i;
         } 
     }
 }

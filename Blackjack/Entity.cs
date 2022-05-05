@@ -9,10 +9,18 @@ namespace Blackjack
 {
     internal abstract class Entity
     {
-        public List<Card> hand { get; set; } = new List<Card>();
+        protected List<Card> hand { get; set; } = new List<Card>();
         public void ResetHand()
         {
             hand.Clear();
+        }
+        public List<Card> GetHand()
+        {
+            return hand;
+        }
+        public void AddToHand(Card card)
+        {
+            hand.Add(card);
         }
     }
 }
